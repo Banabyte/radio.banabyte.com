@@ -1,273 +1,453 @@
-body {
-    background-size: cover;
-    background-repeat: no-repeat;
-    backdrop-filter: blur(50px);
-    background-color: #000000b3;
-    color: #f0f0f0;
-    font-family: Arial, sans-serif;
+:root {
+    --primary-rgb: 108, 92, 231; /* RGB values of --primary */
+    --primary: #6c5ce7;
+    --secondary: #a8a5e6;
+    --background: #0f0e17;
+    --text: #fffffe;
+}
+
+* {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    transition: background-image 1s ease;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 header {
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    padding: 20px;
     text-align: center;
-    position: relative;
-    z-index: 1001;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 3rem;
 }
 
 h1 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #ffffff;   
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.menu-icon {
-    background: none;
-    border: none;
+.stations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.station-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
     cursor: pointer;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 20px;
-    position: absolute;
-    left: 20px;
-}
-
-.bar {
-    width: 100%;
-    height: 3px;
-    background-color: #f0f0f0;
-    border-radius: 2px;
-    transition: background-color 0.3s ease;
-}
-
-.bar:hover {
-    background-color: #ffffff;
-}
-
-main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
     position: relative;
-	background-color: rgb(43 43 43 / 39%);
+    overflow: hidden;
 }
 
-.sidebar {
-    width: 0;
-    height: 100%;
-	overflow-x: clip;
-    overflow-y: auto;
+.station-card:hover {
+    transform: translateY(-5px);
+}
+
+.station-art {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.play-btn {
     position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    transition: width 0.3s ease;
-    z-index: 1002;
-    white-space: nowrap; /* Ensure content does not wrap */
-}
-
-.sidebar-content {
-    width: 250px; /* Fixed width for the content */
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.75rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.sidebar.open {
-    width: 250px;
-}
-
-section {
-    width: 100%;
-    max-height: 100%;
-    padding: 20px;
-    background-color: rgba(43, 43, 43, 0.9);
-}
-
-h2 {
-    text-align: center;
-    color: #ffffff;
-    margin-block-start: auto;
-    margin-block-end: 0.23cm;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-h3 {display: block;
-    font-size: 1em;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: normal;
-    unicode-bidi: isolate;
-}
-
-#stations-list {
-    list-style-type: none;
-    padding-bottom: 0;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 10px;
-    margin: 0;
-    border-radius: 0;
-    background-color: #00000000;
-    box-shadow: none;
-}
-
-#stations-list ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-li {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-    background-color: #444;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-li:hover {
-    background-color: #6a6a6a;
-}
-
-#station-info {
-    text-align: center;
-}
-
-.album-art {
-    width: 300px;
-    height: 300px;
-    border-radius: 8px;
-    margin: 10px 0;
-    align-self: center;
-    box-shadow: 0px 0.7px 4px 0px #00000057;
-    transition: opacity 1s ease;
-}
-
-.album-art.fade-out {
-    opacity: 0;
-}
-
-.album-art.fade-in {
-    opacity: 1;
-}
-
-audio {
-    display: none; /* Hide the default audio controls */
-}
-
-footer {
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    color: #f0f0f0;
-    text-align: center;
-    padding: 10px 20px;
-}
-
-/* Frosted glass effect for currently playing section */
-#currently-playing {
-    background-color: rgba(255, 255, 255, 0.1); /* Slightly opaque white background */
-    backdrop-filter: blur(10px); /* Blur effect */
-    align-content: center;
-}
-
-/* Custom Audio Controls Styles */
-#custom-audio-controls {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    margin-top: 20px;
-	flex-wrap: wrap;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.control-button {
-    background-color: #57a0d200;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 1.5em; /* Adjust icon size */
+.play-btn:hover {
+    background: var(--primary);
+    transform: scale(1.1);
 }
 
-#volume-slider {
-    width: 150px;
-    margin: 0 10px;
+/* Prevent play button from triggering card click */
+.play-btn {
+    pointer-events: none;
 }
 
-#volume-label {
-    margin-left: 10px;
+.play-btn i {
+    pointer-events: auto;
 }
 
-.next-song {
-    color: white;
-    bottom: 0;
-    width: 100%;
+.loading {
     text-align: center;
-
+    font-size: 1.5rem;
+    margin: 2rem 0;
 }
 
-/* Loading Screen Styles */
-#loading-screen {
+/* Full-screen media player styles */
+.now-playing.fullscreen {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: none;
+    overflow: auto;
+    justify-content: center;
+}
+
+/* Album Art Container */
+.now-playing.fullscreen .art-container {
+    flex: 0 0 auto;
+    max-width: min(600px, 80vw);
+    max-height: min(600px, 60vh);
+    margin: 1rem 0;
+}
+
+/* Album Art in Fullscreen */
+.now-playing.fullscreen img#now-playing-art {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.966); /* Semi-transparent background */
-    backdrop-filter: blur(50px);
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+/* Song Info in Fullscreen */
+.now-playing.fullscreen .now-playing-info {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+.now-playing.fullscreen .now-playing-info h3 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+}
+
+.now-playing.fullscreen .now-playing-info p {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--secondary);
+}
+
+/* Player Controls Container */
+.now-playing.fullscreen .controls-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto 0 auto;
+}
+
+/* Player Controls in Fullscreen */
+.now-playing.fullscreen .player-controls {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Ensure it's on top of all content */
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    text-align: center;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    gap: 1rem;
+    width: 100%;
 }
 
-#loading-screen.hidden {
-    opacity: 0;
-    pointer-events: none; /* Prevents interaction during fade-out */
+/* Volume Controls Alignment */
+.now-playing.fullscreen .volume-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: auto;
+    margin: 0;
 }
 
-.spinner {
-    border: 6px solid #a3a3a3; /* Light grey */
-    border-top: 6px solid #ffffff; /* Blue */
+.now-playing.fullscreen #volume-slider {
+    width: min(400px, 60vw);
+}
+
+/* Close Button */
+.now-playing.fullscreen .close-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: 1004;
+    pointer-events: auto;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .now-playing.fullscreen {
+        padding: 6rem 1rem;
+        justify-content: space-around;
+    }
+
+    .now-playing.fullscreen .art-container {
+        max-height: 40vh;
+        margin: 0.5rem 0;
+    }
+
+    .now-playing.fullscreen .now-playing-info {
+        margin: 0.5rem 0;
+    }
+
+    .now-playing.fullscreen .player-controls {
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .now-playing.fullscreen #volume-slider {
+        width: 100px;
+    }
+
+    /* Unified button sizing */
+    .player-btn {
+        font-size: 1.2rem;
+        padding: 0.4rem;
+    }
+}
+
+/* Minimized "Now Playing" bar styles */
+.now-playing {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.now-playing img#now-playing-art {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.now-playing .now-playing-info {
+    flex: 1;
+}
+
+.now-playing .player-controls {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.now-playing .player-controls i:hover {
+    color: var(--primary);
+}
+
+/* Close button */
+.now-playing.fullscreen .close-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.close-btn i {
+    pointer-events: none;
 }
 
-.station-logo { 
-    max-height: 120px;
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
+/* Refresh button */
+#refresh-btn {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#refresh-btn:hover {
+    color: var(--primary);
+}
+
+.now-playing .close-btn {
+    display: none;
+}
+
+#play-pause, #refresh-btn {
+    position: relative;
+    z-index: 1003;
+    pointer-events: auto !important;
+}
+
+/* Ensure media control buttons (Play/Pause and Refresh) look like icons */
+.player-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure button does not shrink or change style */
+.player-btn i {
+    color: white;
+    pointer-events: none;
+}
+
+/* Remove button focus outline */
+.player-btn:focus {
+    outline: none;
+}
+
+/* Optional: Hover effect */
+.player-btn:hover {
+    color: #6c5ce7;
+}
+
+.now-playing-background {
+    pointer-events: none;
+}
+.now-playing-button {
+    position: relative;
+    pointer-events: auto;
+}
+
+/* Volume Controls */
+.volume-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    pointer-events: none;
+}
+
+.volume-controls * {
+    pointer-events: auto;
+    transition: color 0.1s ease;
+}
+
+#volume-slider {
+    width: 90px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    height: 4px;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* Hide volume slider on mobile minimized player */
+@media (max-width: 768px) {
+    .now-playing:not(.fullscreen) #volume-slider {
+        display: none;
+    }
+}
+
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+    .station-art {
+        position: relative; /* Make the image container a positioning context */
+    }
+
+    .play-btn {
+        position: absolute;
+        top: 35%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Perfect centering */
+        opacity: 0; /* Hidden by default */
+        transition: all 0.3s ease;
+        z-index: 2; /* Ensure it's above the image */
+        background: rgba(var(--primary-rgb), 0.9); /* Semi-transparent background */
+        width: 60px;
+        height: 60px;
+        padding: 1rem;
+        border-radius: 50%; /* Circular button */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .play-btn i {
+        font-size: 1.5rem;
+        color: white; /* Ensure icon is visible */
+    }
+
+    /* Show play button on hover */
+    .station-card:hover .play-btn {
+        opacity: 1;
+    }
+
+    /* Optional: Add overlay effect on art hover */
+    .station-art::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s ease;
+        border-radius: 10px; /* Match image border radius */
+    }
+
+    .station-card:hover .station-art::after {
+        opacity: 1; /* Show overlay on hover */
+    }
 }
