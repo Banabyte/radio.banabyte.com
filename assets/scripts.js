@@ -9,12 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('play-pause');
     const refreshBtn = document.getElementById('refresh-btn');
     const closeBtn = document.getElementById('close-btn');
+    const muteBtn = document.getElementById('mute-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    let isMuted = false;
+
 
     const songTitleElem = document.getElementById('now-playing-title');
     const songArtistElem = document.getElementById('now-playing-artist');
     const albumArtElem = document.getElementById('now-playing-art');
 
     const defaultNowPlayingArt = "https://azuracast.banabyte.com/static/uploads/album_art.1732690005.png";
+
+    // Initialize volume from localStorage
+    currentAudio.volume = localStorage.getItem('volume') || 1;
+    volumeSlider.value = currentAudio.volume;
 
     // ----------------------------------------
     // PLAYBACK CONTROLS
@@ -97,6 +105,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------
+    // VOLUME CONTROL
+    // ----------------------------------------
+
+    // Volume Slider Event Listeners
+    volumeSlider.addEventListener('input', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
+        const volume = e.target.value;
+        currentAudio.volume = volume;
+        localStorage.setItem('volume', volume);
+
+        // Update mute state and icon
+        // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
+                if (volume == 0) {
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            isMuted = true;
+        } else {
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            isMuted = false;
+        }
+    });
+
+    volumeSlider.addEventListener('click', (e) => {
+        e.stopPropagation(); // Explicitly stop click propagation
+    });
+
+    volumeSlider.addEventListener('mousedown', (e) => {
+        e.stopPropagation(); // Prevent fullscreen toggle when starting to drag the slider
+    });
+
+    volumeSlider.addEventListener('mouseup', (e) => {
+        e.stopPropagation(); // Prevent fullscreen toggle when releasing the slider
+    });
+
+    // Mute Button Event Listener
+    muteBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent fullscreen toggle
+        if (isMuted) {
+            currentAudio.volume = volumeSlider.value || 0.5;
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            isMuted = false;
+        } else {
+            currentAudio.volume = 0;
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            isMuted = true;
+        }
+    });
+
+    // ----------------------------------------
     // FETCH & RENDER STATIONS
     // ----------------------------------------
 
@@ -160,20 +216,26 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation(); // Prevent fullscreen toggle
         refreshStream();
     });
-    
+
     closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         nowPlayingBar.classList.remove('fullscreen');
     });
 
     nowPlayingBar.addEventListener('click', (e) => {
-        // If clicked on the background (not on buttons)
-        if (!e.target.closest('.now-playing-button')) {
-            if (!nowPlayingBar.classList.contains('fullscreen')) {
-                nowPlayingBar.classList.add('fullscreen');
-            }
+    // Only trigger fullscreen if the click is NOT on:
+    // - Player buttons (play, refresh, mute)
+    // - Volume slider
+    if (
+        !e.target.closest('.player-btn') && 
+        !e.target.closest('#volume-slider') &&
+        !e.target.closest('.volume-controls')
+    ) {
+        if (!nowPlayingBar.classList.contains('fullscreen')) {
+            nowPlayingBar.classList.add('fullscreen');
         }
-    });
+    }
+});
 
     // Initialize
     fetchNowPlaying();

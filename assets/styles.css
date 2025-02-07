@@ -248,3 +248,71 @@ h1 {
     position: relative;
     pointer-events: auto;
 }
+
+/* Volume Controls */
+.volume-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto; /* Push to the right in desktop mode */
+    pointer-events: none; /* Disable clicks on the container */
+}
+
+.volume-controls * {
+    pointer-events: auto; /* Re-enable clicks for slider and mute button */
+    transition: color 0.1s ease;
+}
+
+#volume-slider {
+    width: 90px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-appearance: none; /* Remove default styling */
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    height: 4px;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* Hide volume slider on mobile minimized player */
+@media (max-width: 768px) {
+    .now-playing:not(.fullscreen) #volume-slider {
+        display: none;
+    }
+}
+
+/* Fullscreen mode adjustments */
+.now-playing.fullscreen .volume-controls {
+    margin-left: 0; /* Reset for centered layout */
+    position: relative;
+    bottom: auto;
+}
+
+.now-playing.fullscreen #volume-slider {
+    width: 150px; /* Larger slider in fullscreen */
+}
+
+/* Mute button hover states */
+#mute-btn:hover i {
+    color: var(--primary) !important;
+}
