@@ -1,273 +1,242 @@
-body {
-    background-size: cover;
-    background-repeat: no-repeat;
-    backdrop-filter: blur(50px);
-    background-color: #000000b3;
-    color: #f0f0f0;
-    font-family: Arial, sans-serif;
+:root {
+    --primary: #6c5ce7;
+    --secondary: #a8a5e6;
+    --background: #0f0e17;
+    --text: #fffffe;
+}
+
+* {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    transition: background-image 1s ease;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 header {
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    padding: 20px;
     text-align: center;
-    position: relative;
-    z-index: 1001;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 3rem;
 }
 
 h1 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #ffffff;   
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.menu-icon {
-    background: none;
-    border: none;
+.stations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.station-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
     cursor: pointer;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 20px;
-    position: absolute;
-    left: 20px;
-}
-
-.bar {
-    width: 100%;
-    height: 3px;
-    background-color: #f0f0f0;
-    border-radius: 2px;
-    transition: background-color 0.3s ease;
-}
-
-.bar:hover {
-    background-color: #ffffff;
-}
-
-main {
-    flex: 1;
-    display: flex;
-    justify-content: center;
     position: relative;
-	background-color: rgb(43 43 43 / 39%);
+    overflow: hidden;
 }
 
-.sidebar {
-    width: 0;
-    height: 100%;
-	overflow-x: clip;
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    transition: width 0.3s ease;
-    z-index: 1002;
-    white-space: nowrap; /* Ensure content does not wrap */
+.station-card:hover {
+    transform: translateY(-5px);
 }
 
-.sidebar-content {
-    width: 250px; /* Fixed width for the content */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.sidebar.open {
-    width: 250px;
-}
-
-section {
+.station-art {
     width: 100%;
-    max-height: 100%;
-    padding: 20px;
-    background-color: rgba(43, 43, 43, 0.9);
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 1rem;
 }
 
-h2 {
+.loading {
     text-align: center;
-    color: #ffffff;
-    margin-block-start: auto;
-    margin-block-end: 0.23cm;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+    font-size: 1.5rem;
+    margin: 2rem 0;
 }
 
-h3 {display: block;
-    font-size: 1em;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: normal;
-    unicode-bidi: isolate;
-}
-
-#stations-list {
-    list-style-type: none;
-    padding-bottom: 0;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 10px;
-    margin: 0;
-    border-radius: 0;
-    background-color: #00000000;
-    box-shadow: none;
-}
-
-#stations-list ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-li {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-    background-color: #444;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-li:hover {
-    background-color: #6a6a6a;
-}
-
-#station-info {
-    text-align: center;
-}
-
-.album-art {
-    width: 300px;
-    height: 300px;
-    border-radius: 8px;
-    margin: 10px 0;
-    align-self: center;
-    box-shadow: 0px 0.7px 4px 0px #00000057;
-    transition: opacity 1s ease;
-}
-
-.album-art.fade-out {
-    opacity: 0;
-}
-
-.album-art.fade-in {
-    opacity: 1;
-}
-
-audio {
-    display: none; /* Hide the default audio controls */
-}
-
-footer {
-    background-color: #1a1a1acc;
-    backdrop-filter: blur(10px);
-    color: #f0f0f0;
-    text-align: center;
-    padding: 10px 20px;
-}
-
-/* Frosted glass effect for currently playing section */
-#currently-playing {
-    background-color: rgba(255, 255, 255, 0.1); /* Slightly opaque white background */
-    backdrop-filter: blur(10px); /* Blur effect */
-    align-content: center;
-}
-
-/* Custom Audio Controls Styles */
-#custom-audio-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-	flex-wrap: wrap;
-}
-
-.control-button {
-    background-color: #57a0d200;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 1.5em; /* Adjust icon size */
-}
-
-#volume-slider {
-    width: 150px;
-    margin: 0 10px;
-}
-
-#volume-label {
-    margin-left: 10px;
-}
-
-.next-song {
-    color: white;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-
-}
-
-/* Loading Screen Styles */
-#loading-screen {
+/* Full-screen media player styles */
+.now-playing.fullscreen {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; /* Reduced padding to bring elements closer */
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Disable tap highlight */
+    pointer-events: none; /* Disable clicks on the container */
+}
+
+.now-playing.fullscreen img#now-playing-art {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 0.5rem; /* Reduced margin to bring elements closer */
+}
+
+.now-playing.fullscreen .now-playing-info {
+    text-align: center;
+    margin-bottom: 0.5rem; /* Reduced margin to bring elements closer */
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.966); /* Semi-transparent background */
-    backdrop-filter: blur(50px);
+    max-width: 300px;
+}
+
+.now-playing.fullscreen .now-playing-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem; /* Reduced margin to bring elements closer */
+}
+
+.now-playing.fullscreen .now-playing-info p {
+    font-size: 1rem;
+    color: var(--secondary);
+}
+
+.now-playing.fullscreen .player-controls {
+    position: fixed;
+    bottom: 1rem; /* Moved closer to the center */
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
+    gap: 1rem; /* Reduced gap between controls */
+    font-size: 2rem;
+    z-index: 1002; /* Ensure it's above other elements */
+}
+
+.now-playing.fullscreen .close-btn,
+.now-playing.fullscreen .player-controls {
+    pointer-events: auto; /* Re-enable clicks for controls */
+}
+
+/* Minimized "Now Playing" bar styles */
+.now-playing {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    display: flex;
     align-items: center;
-    z-index: 9999; /* Ensure it's on top of all content */
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    text-align: center;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    gap: 1rem;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto; /* Ensure it's clickable in minimized mode */
 }
 
-#loading-screen.hidden {
-    opacity: 0;
-    pointer-events: none; /* Prevents interaction during fade-out */
+.now-playing img#now-playing-art {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
 }
 
-.spinner {
-    border: 6px solid #a3a3a3; /* Light grey */
-    border-top: 6px solid #ffffff; /* Blue */
+.now-playing .now-playing-info {
+    flex: 1;
+}
+
+.now-playing .player-controls {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.now-playing .player-controls i:hover {
+    color: var(--primary);
+}
+
+/* Close button */
+.now-playing.fullscreen .close-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003; /* Ensure it's above everything */
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.close-btn i {
+    pointer-events: none; /* Disable clicks on the SVG */
 }
 
-.station-logo { 
-    max-height: 120px;
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
+/* Refresh button */
+#refresh-btn {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#refresh-btn:hover {
+    color: var(--primary); /* Change color on hover */
+}
+
+.now-playing .close-btn {
+    display: none;
+}
+
+#play-pause, #refresh-btn {
+    position: relative;
+    z-index: 1003;
+    pointer-events: auto !important;
+}
+
+/* Ensure media control buttons (Play/Pause and Refresh) look like icons */
+.player-btn {
+    background: none;
+    border: none;
+    color: white;  /* Ensures icons are white */
+    font-size: 1.5rem; /* Adjust size if needed */
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure button does not shrink or change style */
+.player-btn i {
+    color: white; /* Makes sure Font Awesome icons stay white */
+    pointer-events: none; /* Prevents click interference on the icon */
+}
+
+/* Remove button focus outline */
+.player-btn:focus {
+    outline: none;
+}
+
+/* Optional: Hover effect */
+.player-btn:hover {
+    color: #6c5ce7; /* Changes color on hover */
 }
