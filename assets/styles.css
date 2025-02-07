@@ -240,3 +240,11 @@ h1 {
 .player-btn:hover {
     color: #6c5ce7; /* Changes color on hover */
 }
+
+.now-playing-background {
+    pointer-events: none; /* Disable interaction with the background */
+}
+.now-playing-button {
+    position: relative;
+    pointer-events: auto;
+}
