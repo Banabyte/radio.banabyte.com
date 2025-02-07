@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volume-slider');
     let isMuted = false;
 
-
     const songTitleElem = document.getElementById('now-playing-title');
     const songArtistElem = document.getElementById('now-playing-artist');
     const albumArtElem = document.getElementById('now-playing-art');
@@ -192,8 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            card.querySelector('.play-btn').addEventListener('click', () => {
-                playStation(station.shortcode, song);
+            // Add click handler to entire card
+            card.addEventListener('click', (e) => {
+                // Prevent station change if clicking the play button
+                if (!e.target.closest('.play-btn')) {
+                    playStation(station.shortcode, song);
+                }
             });
 
             grid.appendChild(card);
@@ -223,19 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     nowPlayingBar.addEventListener('click', (e) => {
-    // Only trigger fullscreen if the click is NOT on:
-    // - Player buttons (play, refresh, mute)
-    // - Volume slider
-    if (
-        !e.target.closest('.player-btn') && 
-        !e.target.closest('#volume-slider') &&
-        !e.target.closest('.volume-controls')
-    ) {
-        if (!nowPlayingBar.classList.contains('fullscreen')) {
-            nowPlayingBar.classList.add('fullscreen');
+        // Only trigger fullscreen if the click is NOT on:
+        // - Player buttons (play, refresh, mute)
+        // - Volume slider
+        if (
+            !e.target.closest('.player-btn') && 
+            !e.target.closest('#volume-slider') &&
+            !e.target.closest('.volume-controls')
+        ) {
+            if (!nowPlayingBar.classList.contains('fullscreen')) {
+                nowPlayingBar.classList.add('fullscreen');
+            }
         }
-    }
-});
+    });
 
     // Initialize
     fetchNowPlaying();

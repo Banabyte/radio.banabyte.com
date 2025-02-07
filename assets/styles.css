@@ -1,4 +1,5 @@
 :root {
+    --primary-rgb: 108, 92, 231; /* RGB values of --primary */
     --primary: #6c5ce7;
     --secondary: #a8a5e6;
     --background: #0f0e17;
@@ -66,6 +67,35 @@ h1 {
     margin-bottom: 1rem;
 }
 
+.play-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.75rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+    background: var(--primary);
+    transform: scale(1.1);
+}
+
+/* Prevent play button from triggering card click */
+.play-btn {
+    pointer-events: none;
+}
+
+.play-btn i {
+    pointer-events: auto;
+}
+
 .loading {
     text-align: center;
     font-size: 1.5rem;
@@ -84,52 +114,120 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 1rem; /* Reduced padding to bring elements closer */
+    padding: 2rem;
     transition: all 0.3s ease;
-    -webkit-tap-highlight-color: transparent; /* Disable tap highlight */
-    pointer-events: none; /* Disable clicks on the container */
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: none;
+    overflow: auto;
+    justify-content: center;
 }
 
+/* Album Art Container */
+.now-playing.fullscreen .art-container {
+    flex: 0 0 auto;
+    max-width: min(600px, 80vw);
+    max-height: min(600px, 60vh);
+    margin: 1rem 0;
+}
+
+/* Album Art in Fullscreen */
 .now-playing.fullscreen img#now-playing-art {
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     border-radius: 15px;
-    margin-bottom: 0.5rem; /* Reduced margin to bring elements closer */
+    object-fit: cover;
 }
 
+/* Song Info in Fullscreen */
 .now-playing.fullscreen .now-playing-info {
     text-align: center;
-    margin-bottom: 0.5rem; /* Reduced margin to bring elements closer */
     width: 100%;
-    max-width: 300px;
+    max-width: 600px;
+    margin: 1rem 0;
+    padding: 0 1rem;
 }
 
 .now-playing.fullscreen .now-playing-info h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem; /* Reduced margin to bring elements closer */
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
 }
 
 .now-playing.fullscreen .now-playing-info p {
-    font-size: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
     color: var(--secondary);
 }
 
-.now-playing.fullscreen .player-controls {
-    position: fixed;
-    bottom: 1rem; /* Moved closer to the center */
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 1rem; /* Reduced gap between controls */
-    font-size: 2rem;
-    z-index: 1002; /* Ensure it's above other elements */
+/* Player Controls Container */
+.now-playing.fullscreen .controls-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto 0 auto;
 }
 
-.now-playing.fullscreen .close-btn,
+/* Player Controls in Fullscreen */
 .now-playing.fullscreen .player-controls {
-    pointer-events: auto; /* Re-enable clicks for controls */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* Volume Controls Alignment */
+.now-playing.fullscreen .volume-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: auto;
+    margin: 0;
+}
+
+.now-playing.fullscreen #volume-slider {
+    width: min(400px, 60vw);
+}
+
+/* Close Button */
+.now-playing.fullscreen .close-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: 1004;
+    pointer-events: auto;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .now-playing.fullscreen {
+        padding: 6rem 1rem;
+        justify-content: space-around;
+    }
+
+    .now-playing.fullscreen .art-container {
+        max-height: 40vh;
+        margin: 0.5rem 0;
+    }
+
+    .now-playing.fullscreen .now-playing-info {
+        margin: 0.5rem 0;
+    }
+
+    .now-playing.fullscreen .player-controls {
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .now-playing.fullscreen #volume-slider {
+        width: 100px;
+    }
+
+    /* Unified button sizing */
+    .player-btn {
+        font-size: 1.2rem;
+        padding: 0.4rem;
+    }
 }
 
 /* Minimized "Now Playing" bar styles */
@@ -147,7 +245,7 @@ h1 {
     justify-content: space-between;
     transition: all 0.3s ease;
     cursor: pointer;
-    pointer-events: auto; /* Ensure it's clickable in minimized mode */
+    pointer-events: auto;
 }
 
 .now-playing img#now-playing-art {
@@ -185,11 +283,11 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1003; /* Ensure it's above everything */
+    z-index: 1003;
 }
 
 .close-btn i {
-    pointer-events: none; /* Disable clicks on the SVG */
+    pointer-events: none;
 }
 
 /* Refresh button */
@@ -199,7 +297,7 @@ h1 {
 }
 
 #refresh-btn:hover {
-    color: var(--primary); /* Change color on hover */
+    color: var(--primary);
 }
 
 .now-playing .close-btn {
@@ -216,8 +314,8 @@ h1 {
 .player-btn {
     background: none;
     border: none;
-    color: white;  /* Ensures icons are white */
-    font-size: 1.5rem; /* Adjust size if needed */
+    color: white;
+    font-size: 1.5rem;
     padding: 0.5rem;
     cursor: pointer;
     display: flex;
@@ -227,8 +325,8 @@ h1 {
 
 /* Ensure button does not shrink or change style */
 .player-btn i {
-    color: white; /* Makes sure Font Awesome icons stay white */
-    pointer-events: none; /* Prevents click interference on the icon */
+    color: white;
+    pointer-events: none;
 }
 
 /* Remove button focus outline */
@@ -238,11 +336,11 @@ h1 {
 
 /* Optional: Hover effect */
 .player-btn:hover {
-    color: #6c5ce7; /* Changes color on hover */
+    color: #6c5ce7;
 }
 
 .now-playing-background {
-    pointer-events: none; /* Disable interaction with the background */
+    pointer-events: none;
 }
 .now-playing-button {
     position: relative;
@@ -254,12 +352,12 @@ h1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-left: auto; /* Push to the right in desktop mode */
-    pointer-events: none; /* Disable clicks on the container */
+    margin-left: auto;
+    pointer-events: none;
 }
 
 .volume-controls * {
-    pointer-events: auto; /* Re-enable clicks for slider and mute button */
+    pointer-events: auto;
     transition: color 0.1s ease;
 }
 
@@ -267,7 +365,7 @@ h1 {
     width: 90px;
     cursor: pointer;
     transition: all 0.3s ease;
-    -webkit-appearance: none; /* Remove default styling */
+    -webkit-appearance: none;
     appearance: none;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
@@ -301,18 +399,55 @@ h1 {
     }
 }
 
-/* Fullscreen mode adjustments */
-.now-playing.fullscreen .volume-controls {
-    margin-left: 0; /* Reset for centered layout */
-    position: relative;
-    bottom: auto;
-}
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+    .station-art {
+        position: relative; /* Make the image container a positioning context */
+    }
 
-.now-playing.fullscreen #volume-slider {
-    width: 150px; /* Larger slider in fullscreen */
-}
+    .play-btn {
+        position: absolute;
+        top: 35%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Perfect centering */
+        opacity: 0; /* Hidden by default */
+        transition: all 0.3s ease;
+        z-index: 2; /* Ensure it's above the image */
+        background: rgba(var(--primary-rgb), 0.9); /* Semi-transparent background */
+        width: 60px;
+        height: 60px;
+        padding: 1rem;
+        border-radius: 50%; /* Circular button */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-/* Mute button hover states */
-#mute-btn:hover i {
-    color: var(--primary) !important;
+    .play-btn i {
+        font-size: 1.5rem;
+        color: white; /* Ensure icon is visible */
+    }
+
+    /* Show play button on hover */
+    .station-card:hover .play-btn {
+        opacity: 1;
+    }
+
+    /* Optional: Add overlay effect on art hover */
+    .station-art::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s ease;
+        border-radius: 10px; /* Match image border radius */
+    }
+
+    .station-card:hover .station-art::after {
+        opacity: 1; /* Show overlay on hover */
+    }
 }
