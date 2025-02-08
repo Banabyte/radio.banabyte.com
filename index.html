@@ -32,22 +32,28 @@
 
         <!-- Now Playing Bar -->
         <div class="now-playing">
+
             <!-- Close Button -->
             <button id="close-btn" class="close-btn">
                 <i class="fas fa-chevron-down"></i>
             </button>
-            
+
+            <!-- Add this container for fullscreen logos -->
+             <div class="fullscreen-logos">
+                <div class="station-logo-container"></div>
+            </div>    
+
             <!-- Album Art Container -->
             <div class="art-container">
                 <img id="now-playing-art" src="https://azuracast.banabyte.com/static/uploads/album_art.1732690005.png" alt="Album Art">
             </div>
-        
+
             <!-- Song Info -->
             <div class="now-playing-info">
                 <h3 id="now-playing-title">No Song Playing</h3>
                 <p id="now-playing-artist">Unknown Artist</p>
             </div>
-        
+
             <!-- Controls Container -->
             <div class="controls-container">
                 <div class="player-controls">
@@ -55,12 +61,12 @@
                     <button id="play-pause" class="player-btn">
                         <i class="fas fa-play"></i>
                     </button>
-        
+
                     <!-- Refresh Button -->
                     <button id="refresh-btn" class="player-btn">
                         <i class="fas fa-sync-alt"></i>
                     </button>
-        
+
                     <!-- Volume Controls -->
                     <div class="volume-controls">
                         <button id="mute-btn" class="player-btn">
@@ -70,10 +76,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+</div>
 
         <footer style="text-align: center; margin-top: 2rem;">
-            <p>© <span id="current-year"></span> Banabyte LLC</p>
+            <p>© 2024-2025 Banabyte LLC</p>
         </footer>
     </div>
 
