@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const albumArtElem = document.getElementById('now-playing-art');
 
     const defaultNowPlayingArt = "https://azuracast.banabyte.com/static/uploads/album_art.1732690005.png";
+    const defaultStationArt = "https://azuracast.banabyte.com/static/uploads/background.1732689552.png";
+
+    // Station logo settings
+    const STATION_LOGO_BASE_URL = 'https://radio.banabyte.com/assets/station_logos/';
 
     // Initialize volume from localStorage
     currentAudio.volume = localStorage.getItem('volume') || 1;
@@ -37,10 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentAudio.paused) {
             currentAudio.play().then(() => {
                 playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                navigator.mediaSession.playbackState = 'playing'; // Update Media Session state
             }).catch(error => console.error('Playback error:', error));
         } else {
             currentAudio.pause();
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            navigator.mediaSession.playbackState = 'paused'; // Update Media Session state
         }
     }
 
@@ -60,12 +66,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------
+    // MEDIA SESSION API INTEGRATION
+    // ----------------------------------------
+
+    function updateMediaSessionMetadata(song) {
+        if ('mediaSession' in navigator) {
+            // Set media metadata for the Media Session API
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.title || 'Unknown Title',
+                artist: song.artist || 'Unknown Artist',
+                artwork: [
+                    { 
+                        src: song.art || defaultNowPlayingArt, 
+                        sizes: '512x512', // Preferred size for notifications
+                        type: 'image/png' 
+                    }
+                ]
+            });
+
+            // Handle media controls (play/pause/stop)
+            navigator.mediaSession.setActionHandler('play', () => {
+                togglePlayPause();
+            });
+
+            navigator.mediaSession.setActionHandler('pause', () => {
+                togglePlayPause();
+            });
+
+            navigator.mediaSession.setActionHandler('stop', () => {
+                currentAudio.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            });
+        }
+    }
+
+    // ----------------------------------------
     // PLAY STATION & UPDATE NOW PLAYING
     // ----------------------------------------
 
-    function playStation(stationId, song) {
+    function playStation(stationId, stationShortcode, song, stationName) {
         currentStationId = stationId; // Save current station ID
-        currentStationUrl = `https://azuracast.banabyte.com/listen/${stationId}/radio.mp3`;
+        currentStationUrl = `https://azuracast.banabyte.com/listen/${stationShortcode}/radio.mp3`;
 
         currentAudio.src = currentStationUrl;
         currentAudio.load();
@@ -79,12 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
         songArtistElem.textContent = song.artist || 'Unknown Artist';
         albumArtElem.src = song.art || defaultNowPlayingArt;
 
-        nowPlayingBar.style.display = 'flex';
+        // Update Media Session metadata
+        updateMediaSessionMetadata(song);
 
-        // Expand fullscreen on mobile
-        if (window.innerWidth <= 768) {
-            nowPlayingBar.classList.add('fullscreen');
-            overlay.style.display = 'block'; // Show the overlay
+        // Update station logo in fullscreen player
+        // Use stationShortcode for logos
+        const fullscreenContainer = document.querySelector('.station-logo-container');
+        if (fullscreenContainer) {
+            fullscreenContainer.innerHTML = `
+                <img class="station-logo" 
+                     src="${STATION_LOGO_BASE_URL}${stationShortcode}.png" 
+                     alt="${stationName} Logo"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="station-name-fallback">${stationName}</div>
+            `;
         }
     }
 
@@ -100,6 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
             songTitleElem.textContent = nowPlaying.title || 'Unknown Title';
             songArtistElem.textContent = nowPlaying.artist || 'Unknown Artist';
             albumArtElem.src = nowPlaying.art || defaultNowPlayingArt;
+
+            // Update Media Session metadata
+            updateMediaSessionMetadata(nowPlaying);
+
         } catch (error) {
             console.error("Error fetching song info:", error);
         }
@@ -173,39 +226,51 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderStations(stations) {
         const grid = document.querySelector('.stations-grid');
         grid.innerHTML = '';
-
+    
         // biome-ignore lint/complexity/noForEach: <explanation>
-        stations.forEach(stationData => {
+            stations.forEach(stationData => {
             const station = stationData.station;
             const nowPlaying = stationData.now_playing;
             const song = nowPlaying.song;
-
-            const defaultStationArt = "https://azuracast.banabyte.com/static/uploads/background.1732689552.png";
-
+    
             const card = document.createElement('div');
             card.className = 'station-card';
             card.innerHTML = `
-                <img src="${song.art || defaultStationArt}" class="station-art" alt="Album Art">
-                <h3>${station.name || 'Unknown Station'}</h3>
-                <p>${station.description || 'No description'}</p>
-                <div class="play-btn">
-                    <i class="fas fa-play"></i>
+                <div class="station-art-container">
+                    <!-- Station Art with default fallback -->
+                    <img src="${song.art || defaultStationArt}" 
+                         class="station-art" 
+                         alt="Album Art"
+                         onerror="this.src='${defaultNowPlayingArt}'">
+                    
+                    <!-- Station Logo using shortcode -->
+                    <img class="station-logo" 
+                         src="${STATION_LOGO_BASE_URL}${station.shortcode}.png" 
+                         alt="${station.name} Logo"
+                         onerror="this.style.display='none'">
+                    
+                    <div class="play-btn">
+                        <i class="fas fa-play"></i>
+                    </div>
                 </div>
+                <h3>${station.name}</h3>
+                <p>${station.description || 'No description'}</p>
             `;
-
-            // Add click handler to entire card
+    
+            // Click handler uses station.id for API calls
             card.addEventListener('click', (e) => {
-                // Prevent station change if the fullscreen player is open
-                if (nowPlayingBar.classList.contains('fullscreen')) {
-                    return;
+                if (!nowPlayingBar.classList.contains('fullscreen') && 
+                    !e.target.closest('.play-btn')) {
+                    playStation(station.id, station.shortcode, song, station.name);
                 }
-
-                // Prevent station change if clicking the play button
-                if (!e.target.closest('.play-btn')) {
-                    playStation(station.shortcode, song);
+                
+                 // Automatically open fullscreen on mobile devices
+                 if (window.innerWidth <= 768) {
+                    nowPlayingBar.classList.add('fullscreen');
+                    overlay.style.display = 'block'; // Show the overlay
                 }
             });
-
+    
             grid.appendChild(card);
         });
     }
