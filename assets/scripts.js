@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('close-btn');
     const muteBtn = document.getElementById('mute-btn');
     const volumeSlider = document.getElementById('volume-slider');
+    const overlay = document.querySelector('.overlay'); // Overlay element
     let isMuted = false;
 
     const songTitleElem = document.getElementById('now-playing-title');
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Expand fullscreen on mobile
         if (window.innerWidth <= 768) {
             nowPlayingBar.classList.add('fullscreen');
+            overlay.style.display = 'block'; // Show the overlay
         }
     }
 
@@ -193,6 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add click handler to entire card
             card.addEventListener('click', (e) => {
+                // Prevent station change if the fullscreen player is open
+                if (nowPlayingBar.classList.contains('fullscreen')) {
+                    return;
+                }
+
                 // Prevent station change if clicking the play button
                 if (!e.target.closest('.play-btn')) {
                     playStation(station.shortcode, song);
@@ -223,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         nowPlayingBar.classList.remove('fullscreen');
+        overlay.style.display = 'none'; // Hide the overlay
     });
 
     nowPlayingBar.addEventListener('click', (e) => {
@@ -236,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ) {
             if (!nowPlayingBar.classList.contains('fullscreen')) {
                 nowPlayingBar.classList.add('fullscreen');
+                overlay.style.display = 'block'; // Show the overlay
             }
         }
     });
