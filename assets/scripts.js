@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('splash');
+
+    // Hide splash after 5 seconds
+    setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.remove(); // Remove from DOM entirely
+        }, 1000); // Match CSS transition time
+    }, 5000);
+
     const API_BASE_URL = 'https://azuracast.banabyte.com/api';
     const currentAudio = new Audio();
     let currentStationId = null; // Track the current station ID
