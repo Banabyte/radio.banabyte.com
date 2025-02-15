@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    // Add this to your existing scripts.js
+    // Share Feature
     document.getElementById('share-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navigator.share({
                 title: 'Share this station', // Message
                 text: shareText,
-                url: shareUrl    // URL (triggers "Copy Link" in Windows 11)
+                url: 'radio.banabyte.com'    // URL (triggers "Copy Link" in Windows 11)
             });
         } 
         // Fallback for older browsers
