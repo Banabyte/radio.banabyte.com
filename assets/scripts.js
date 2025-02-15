@@ -313,6 +313,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    // Add this to your existing scripts.js
+    document.getElementById('share-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        const songName = document.getElementById('now-playing-title').textContent;
+        const artistName = document.getElementById('now-playing-artist').textContent;
+        const stationName = document.querySelector('.station-name-fallback')?.textContent || 'Banabyte Radio';
+        const url = window.location.href;
+        
+        const shareText = `Currently listening to "${songName}" by ${artistName} on ${stationName} at radio.banabyte.com`;
+        const shareUrl = url; // Separate URL for native sharing
+    
+        // For browsers/OS that support Web Share API (including Windows 11)
+        if (navigator.share) {
+            navigator.share({
+                title: 'Share this station', // Message
+                text: shareText,
+                url: shareUrl    // URL (triggers "Copy Link" in Windows 11)
+            });
+        } 
+        // Fallback for older browsers
+        else {
+            navigator.clipboard.writeText(`${shareText} at ${shareUrl}`)
+                .then(() => {
+                    alert('Copied to clipboard!');
+                })
+                .catch(() => {
+                    alert('Failed to copy.');
+                });
+        }
+    });
 
     // Initialize
     fetchNowPlaying();

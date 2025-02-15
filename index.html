@@ -32,18 +32,17 @@
 
         <!-- Now Playing Bar -->
         <div class="now-playing">
-
             <!-- Close Button -->
             <button id="close-btn" class="close-btn">
                 <i class="fas fa-chevron-down"></i>
             </button>
 
-            <!-- Add this container for fullscreen logos -->
-             <div class="fullscreen-logos">
+            <!-- Station Logo Container -->
+            <div class="fullscreen-logos">
                 <div class="station-logo-container"></div>
             </div>    
 
-            <!-- Album Art Container -->
+            <!-- Album Art -->
             <div class="art-container">
                 <img id="now-playing-art" src="https://azuracast.banabyte.com/static/uploads/album_art.1732690005.png" alt="Album Art">
             </div>
@@ -54,20 +53,18 @@
                 <p id="now-playing-artist">Unknown Artist</p>
             </div>
 
-            <!-- Controls Container -->
+            <!-- Player Controls -->
             <div class="controls-container">
                 <div class="player-controls">
-                    <!-- Play/Pause Button -->
                     <button id="play-pause" class="player-btn">
                         <i class="fas fa-play"></i>
                     </button>
-
-                    <!-- Refresh Button -->
                     <button id="refresh-btn" class="player-btn">
                         <i class="fas fa-sync-alt"></i>
                     </button>
-
-                    <!-- Volume Controls -->
+                    <button id="share-btn" class="player-btn" title="Share this station">
+                        <i class="fas fa-share"></i>
+                    </button>
                     <div class="volume-controls">
                         <button id="mute-btn" class="player-btn">
                             <i class="fas fa-volume-up"></i>
@@ -76,14 +73,30 @@
                     </div>
                 </div>
             </div>
-</div>
+        </div>
 
         <footer style="text-align: center; margin-top: 2rem;">
             <p>© 2024-2025 Banabyte LLC</p>
         </footer>
     </div>
 
-    <!-- Overlay to block interaction when fullscreen is open -->
+    <!-- Share Modal -->
+    <div id="desktop-share-modal" class="desktop-share">
+        <div class="share-content">
+            <h3>Share Station</h3>
+            <p id="share-text"></p>
+            <div class="share-actions">
+                <button id="native-share-btn">
+                    <i class="fas fa-share"></i> Share via Apps
+                </button>
+                <button id="copy-clipboard-btn">
+                    <i class="fas fa-copy"></i> Copy Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
     <div class="overlay"></div>
 
     <script src="assets/scripts.js"></script>
