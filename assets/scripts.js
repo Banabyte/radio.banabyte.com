@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navigator.share({
                 title: 'Share this station', // Message
                 text: shareText,
-                url: shareUrl    // URL (triggers "Copy Link" in Windows 11)
+                url   // URL (triggers "Copy Link" in Windows 11)
             });
         } 
         // Fallback for older browsers
