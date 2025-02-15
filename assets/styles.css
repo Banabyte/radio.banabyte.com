@@ -38,6 +38,19 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
+/* Screen Reader Only Class */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .stations-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -524,7 +537,7 @@ h1 {
 }
 
 .now-playing.fullscreen .station-name-fallback {
-    display: none;
+    display: none; /* Hidden by default */
     font-size: 1.5rem;
     color: var(--text);
     text-align: center; /* Center text horizontally */
@@ -536,13 +549,6 @@ h1 {
 }
 
 /* Show station name fallback in the fullscreen player when no logo is available */
-.now-playing.fullscreen .station-name-fallback {
-    display: none; /* Hidden by default */
-    font-size: 1.5rem;
-    color: var(--text);
-    text-align: center; /* Center text horizontally */
-}
-
 .now-playing.fullscreen .station-logo[src=""] + .station-name-fallback,
 .now-playing.fullscreen .station-logo:not([src]) + .station-name-fallback {
     display: block; /* Show fallback if logo is missing */
