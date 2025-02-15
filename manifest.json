@@ -4,8 +4,8 @@
   "description": "Stream diverse radio stations with ease. Discover and enjoy your favorite music with our user-friendly radio player.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#202020",
+  "background_color": "0f0e17",
+  "theme_color": "0f0e17",
   "icons": [
     {
       "src": "assets/android-icon-36x36.png",
