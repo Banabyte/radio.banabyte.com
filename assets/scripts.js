@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
+  
     document.getElementById('share-btn').addEventListener('click', (e) => {
         e.stopPropagation();
 
