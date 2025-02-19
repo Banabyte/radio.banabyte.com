@@ -1,5 +1,5 @@
 :root {
-    --primary-rgb: 108, 92, 231; /* RGB values of --primary */
+    --primary-rgb: 108, 92, 231;
     --primary: #6c5ce7;
     --secondary: #a8a5e6;
     --background: #0f0e17;
@@ -38,7 +38,6 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-/* Screen Reader Only Class */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -56,7 +55,7 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     padding: 1rem;
-    padding-bottom: 120px; /* Add padding to prevent overlap */
+    padding-bottom: 120px;
 }
 
 .station-card {
@@ -102,7 +101,6 @@ h1 {
     transform: scale(1.1);
 }
 
-/* Prevent play button from triggering card click */
 .play-btn {
     pointer-events: none;
 }
@@ -117,7 +115,6 @@ h1 {
     margin: 2rem 0;
 }
 
-/* Full-screen media player styles */
 .now-playing.fullscreen {
     position: fixed;
     top: 0;
@@ -137,7 +134,6 @@ h1 {
     justify-content: center;
 }
 
-/* Album Art Container */
 .now-playing.fullscreen .art-container {
     flex: 0 0 auto;
     max-width: min(400px, 80vw);
@@ -145,7 +141,6 @@ h1 {
     margin: 1rem 0;
 }
 
-/* Album Art in Fullscreen */
 .now-playing.fullscreen img#now-playing-art {
     width: 100%;
     height: 100%;
@@ -153,7 +148,6 @@ h1 {
     object-fit: cover;
 }
 
-/* Song Info in Fullscreen */
 .now-playing.fullscreen .now-playing-info {
     text-align: center;
     width: 100%;
@@ -172,14 +166,12 @@ h1 {
     color: var(--secondary);
 }
 
-/* Player Controls Container */
 .now-playing.fullscreen .controls-container {
     width: 100%;
     max-width: 600px;
     margin: 1rem auto 0 auto;
 }
 
-/* Player Controls in Fullscreen */
 .now-playing.fullscreen .player-controls {
     display: flex;
     flex-wrap: wrap;
@@ -189,7 +181,6 @@ h1 {
     width: 100%;
 }
 
-/* Volume Controls Alignment */
 .now-playing.fullscreen .volume-controls {
     display: flex;
     align-items: center;
@@ -202,7 +193,6 @@ h1 {
     width: min(400px, 60vw);
 }
 
-/* Close Button */
 .now-playing.fullscreen .close-btn {
     position: fixed;
     top: 1.5rem;
@@ -213,7 +203,6 @@ h1 {
     pointer-events: auto;
 }
 
-/* Mobile Adjustments */
 @media (max-width: 768px) {
     .now-playing.fullscreen {
         padding: 6rem 1rem;
@@ -238,27 +227,91 @@ h1 {
         width: 100px;
     }
 
-    /* Unified button sizing */
     .player-btn {
         font-size: 1.2rem;
         padding: 0.4rem;
     }
+
+    /* Minimized Player Fixes */
+    .now-playing:not(.fullscreen) {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        gap: 12px;
+        justify-content: flex-start;
+    }
+
+    .now-playing:not(.fullscreen) .art-container {
+        order: 1;
+        flex-shrink: 0;
+        margin-right: 8px;
+    }
+
+    .now-playing:not(.fullscreen) img#now-playing-art {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    /* Song Info Container */
+    .now-playing:not(.fullscreen) .now-playing-info {
+        order: 2;
+        flex: 1;
+        min-width: 0;
+        margin-right: auto;
+        overflow: hidden;
+        position: relative;
+        max-width: calc(100% - 120px); /* Space for art + button */
+    }
+
+    /* Marquee Animation - Starts aligned left, scrolls leftward */
+    .now-playing:not(.fullscreen) .now-playing-info h3,
+    .now-playing:not(.fullscreen) .now-playing-info p {
+        white-space: nowrap;
+        overflow: hidden;
+        width: max-content;
+        display: inline-block;
+        animation: none;
+        padding-left: 0;
+        transform: translateX(0) !important;
+    }
+
+    .now-playing:not(.fullscreen) .now-playing-info.marquee h3,
+    .now-playing:not(.fullscreen) .now-playing-info.marquee p {
+        animation: marquee 12s linear infinite;
+    }
+
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-100% + 100vw)); } /* Adjust based on container width */
+    }
+
+    /* Play Button Container */
+    .now-playing:not(.fullscreen) .controls-container {
+        order: 3;
+        margin-left: auto;
+    }
+
+    /* Hide unnecessary buttons */
+    .now-playing:not(.fullscreen) #refresh-btn,
+    .now-playing:not(.fullscreen) #share-btn,
+    .now-playing:not(.fullscreen) #mute-btn,
+    .now-playing:not(.fullscreen) .volume-controls {
+        display: none !important;
+    }
 }
 
-/* Minimized "Now Playing" bar styles */
 .now-playing {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 100; /* Ensure it's above other content */
+    z-index: 100;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     padding: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
-    justify-content: space-between;
     transition: all 0.3s ease;
     cursor: pointer;
     pointer-events: auto;
@@ -278,14 +331,12 @@ h1 {
     display: flex;
     gap: 1rem;
     font-size: 1.5rem;
-    cursor: pointer;
 }
 
 .now-playing .player-controls i:hover {
     color: var(--primary);
 }
 
-/* Close button */
 .now-playing.fullscreen .close-btn {
     background: none;
     border: none;
@@ -306,7 +357,6 @@ h1 {
     pointer-events: none;
 }
 
-/* Refresh button */
 #refresh-btn {
     cursor: pointer;
     transition: color 0.3s ease;
@@ -326,7 +376,6 @@ h1 {
     pointer-events: auto !important;
 }
 
-/* Ensure media control buttons (Play/Pause and Refresh) look like icons */
 .player-btn {
     background: none;
     border: none;
@@ -339,18 +388,15 @@ h1 {
     justify-content: center;
 }
 
-/* Ensure button does not shrink or change style */
 .player-btn i {
     color: white;
     pointer-events: none;
 }
 
-/* Remove button focus outline */
 .player-btn:focus {
     outline: none;
 }
 
-/* Optional: Hover effect */
 .player-btn:hover {
     color: #6c5ce7;
 }
@@ -358,12 +404,12 @@ h1 {
 .now-playing-background {
     pointer-events: none;
 }
+
 .now-playing-button {
     position: relative;
     pointer-events: auto;
 }
 
-/* Volume Controls */
 .volume-controls {
     display: flex;
     align-items: center;
@@ -408,32 +454,30 @@ h1 {
     cursor: pointer;
 }
 
-/* Hide volume slider on mobile minimized player */
 @media (max-width: 768px) {
     .now-playing:not(.fullscreen) #volume-slider {
         display: none;
     }
 }
 
-/* Desktop-specific styles */
 @media (min-width: 769px) {
     .station-art {
-        position: relative; /* Make the image container a positioning context */
+        position: relative;
     }
 
     .play-btn {
         position: absolute;
-        top: 50%; /* Center vertically */
-        left: 50%; /* Center horizontally */
-        transform: translate(-50%, -50%); /* Perfect centering */
-        opacity: 0; /* Hidden by default */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
         transition: all 0.3s ease;
-        z-index: 2; /* Ensure it's above the image */
-        background: rgba(var(--primary-rgb), 0.9); /* Semi-transparent background */
+        z-index: 2;
+        background: rgba(var(--primary-rgb), 0.9);
         width: 60px;
         height: 60px;
         padding: 1rem;
-        border-radius: 50%; /* Circular button */
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -441,15 +485,13 @@ h1 {
 
     .play-btn i {
         font-size: 1.5rem;
-        color: white; /* Ensure icon is visible */
+        color: white;
     }
 
-    /* Show play button on hover */
     .station-card:hover .play-btn {
         opacity: 1;
     }
 
-    /* Optional: Add overlay effect on art hover */
     .station-art::after {
         content: '';
         position: absolute;
@@ -457,42 +499,38 @@ h1 {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-        opacity: 0; /* Hidden by default */
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
         transition: opacity 0.3s ease;
-        border-radius: 10px; /* Match image border radius */
+        border-radius: 10px;
     }
 
     .station-card:hover .station-art::after {
-        opacity: 1; /* Show overlay on hover */
+        opacity: 1;
     }
 }
 
-/* Overlay to block interaction when fullscreen is open */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-    z-index: 999; /* Ensure it's above everything except the fullscreen player */
-    display: none; /* Hidden by default */
-    pointer-events: auto; /* Block all clicks */
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+    pointer-events: auto;
 }
 
-/* Ensure the fullscreen player is above the overlay */
 .now-playing.fullscreen {
-    z-index: 1000; /* Higher than the overlay */
+    z-index: 1000;
 }
 
-/* Add to styles.css */
-/* Ensure proper layering */
 .station-art-container {
     align-items: center;
     position: relative;
     height: 200px;
-    border-radius: 20px; /* Match your art height */
+    border-radius: 20px;
 }
 
 .station-logo {
@@ -506,7 +544,6 @@ h1 {
     pointer-events: none;
 }
 
-/* Fullscreen specific styling */
 .now-playing.fullscreen .station-logo {
     position: static;
     transform: none;
@@ -523,38 +560,34 @@ h1 {
     color: var(--text);
 }
 
-/* Hide logo in the minimized now-playing bar */
 .now-playing .station-logo {
     display: none;
 }
 
 .now-playing.fullscreen .station-logo-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
     width: 100%;
     margin-bottom: 1.5rem;
 }
 
 .now-playing.fullscreen .station-name-fallback {
-    display: none; /* Hidden by default */
+    display: none;
     font-size: 1.5rem;
     color: var(--text);
-    text-align: center; /* Center text horizontally */
+    text-align: center;
 }
 
-/* Hide station name fallback in the minimized now-playing bar */
 .now-playing .station-name-fallback {
-    display: none !important; /* Ensure it's hidden */
+    display: none !important;
 }
 
-/* Show station name fallback in the fullscreen player when no logo is available */
 .now-playing.fullscreen .station-logo[src=""] + .station-name-fallback,
 .now-playing.fullscreen .station-logo:not([src]) + .station-name-fallback {
-    display: block; /* Show fallback if logo is missing */
+    display: block;
 }
 
-/* Add these styles to your existing styles.css */
 .desktop-share {
     display: none;
     position: fixed;
@@ -624,7 +657,6 @@ h1 {
     color: var(--primary);
 }
 
-/* Tooltip for the Share Button */
 .player-btn[title] {
     position: relative;
 }
@@ -657,23 +689,19 @@ h1 {
     align-items: center;
     opacity: 1;
     transition: opacity 1s ease-in-out;
-    /* Force edge-case centering */
-    margin: 0 !important; /* Override any conflicting margins */
-    padding: 0 !important; /* Override any conflicting padding */
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .splash-svg {
-    /* Absolute centering as a backup */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* Responsive scaling */
     max-width: 80%;
     max-height: 80vh;
     width: auto;
     height: auto;
-    /* Override any conflicting styles */
     margin: 0 !important;
     display: block !important;
 }
