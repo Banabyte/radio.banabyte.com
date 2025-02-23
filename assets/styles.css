@@ -23,6 +23,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 120px; /* Add space for the now-playing bar */
 }
 
 header {
@@ -709,4 +710,19 @@ h1 {
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
+}
+
+/* Footer adjustments */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    position: sticky;
+    bottom: 20px; /* Keep it above the now-playing bar */
+    z-index: 99; /* Ensure it stays above content but below the now-playing bar */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-bottom: 80px; /* Smaller space for mobile now-playing bar */
+    }
 }
