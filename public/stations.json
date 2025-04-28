@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Banabyte Radio",
+    "streamUrl": "https://azuracast.banabyte.com/listen/banabyte_radio/radio.mp3",
+    "logo": "https://radio.banabyte.com/assets/station_logos/banabyte_radio.png"
+  },
+  {
+    "id": 2,
+    "name": "Papa Rock Radio",
+    "streamUrl": "https://azuracast.banabyte.com/listen/papa_picks/radio.mp3",
+    "logo": "https://radio.banabyte.com/assets/station_logos/papa_picks.png"
+  },
+  {
+    "id": 3,
+    "name": "LucyFM",
+    "streamUrl": "https://azuracast.banabyte.com/listen/lucyfm/radio.mp3",
+    "logo": "https://radio.banabyte.com/assets/station_logos/lucyfm.png"
+  },
+  {
+    "id": 4,
+    "name": "Shork's Jukebox",
+    "streamUrl": "https://azuracast.banabyte.com/listen/shork_jb/radio.mp3",
+    "logo": "https://radio.banabyte.com/assets/station_logos/shork_jb.png"
+  }
+]
