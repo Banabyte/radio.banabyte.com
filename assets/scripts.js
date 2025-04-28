@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }, 5000);
 
-    const API_BASE_URL = 'https://azuracast.banabyte.com/api';
+    const API_BASE_URL = 'localhost:8000';
     const currentAudio = new Audio();
     let currentStationId = null;
     let currentStationUrl = null;
