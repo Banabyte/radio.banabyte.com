@@ -1,3 +1,18 @@
+# ⚠️ This Project is Archived & Deprecated ⚠️
+
+**This repository (`radio.banabyte.com`) is no longer maintained.**
+
+---
+
+## What does this mean?
+
+The code in this repository is outdated and is no longer supported by the original creator. It is kept here for archival purposes only.
+
+* **No new updates:** There will be no further updates, bug fixes, or security patches.
+* **No support:** Issues and pull requests will not be reviewed or addressed.
+
+---
+
 ## Banabyte Radio Player
 
 **Banabyte Radio Player** is a sleek and modern web application designed to stream and display information about your favorite radio stations. This project uses data from the AzuraCast API to provide real-time information about the currently playing song and station details. Additionally, the background of the website dynamically updates to display the album art of the currently playing song, enhancing the user experience with visually appealing backgrounds.
